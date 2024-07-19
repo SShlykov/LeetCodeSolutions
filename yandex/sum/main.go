@@ -1,8 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"os"
 	"strconv"
+	"strings"
 )
 
 func getSum(a int, b int) int {
@@ -10,14 +11,18 @@ func getSum(a int, b int) int {
 }
 
 func main() {
-	a := readInt()
-	b := readInt()
-	fmt.Println(getSum(a, b))
+	a, b := readInts()
+	file, _ := os.Open("output.txt")
+	defer file.Close()
+	file.Write([]byte(strconv.Itoa(getSum(a, b))))
+
 }
 
-func readInt() int {
-	var aString string
-	fmt.Scan(&aString)
-	a, _ := strconv.Atoi(aString)
-	return a
+func readInts() (int, int) {
+	bytes, _ := os.ReadFile("input.txt")
+	str := string(bytes)
+	ints := strings.Split(str, " ")
+	a, _ := strconv.Atoi(ints[0])
+	b, _ := strconv.Atoi(ints[1])
+	return a, b
 }
